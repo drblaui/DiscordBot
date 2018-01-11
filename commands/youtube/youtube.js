@@ -8,14 +8,14 @@ class youTubeCommand extends commando.Command {
             name: 'yt',
             group: 'youtube',
             memberName: 'youtube',
-            description: 'Holt das erste Video mit deinem Suchbegriff',
+            description: 'Gives you the link of the first youtube Video with your search string',
             examples: ["!yt Alex is a stupid Nigger"]
         });
     }
 
     async run(message, args) {
         var things = message.content.substring(PREFIX.length);
-        const APIKEY = "AIzaSyAXW3skB1Fd0F5ETSEmh3pWFnKq-ASeBJM";
+        const APIKEY = ""; //Get yourd from https://console.developers.google.com/
     
         var youTubeLink = "https://www.googleapis.com/youtube/v3/search?part=id&maxResults=1&key=" + APIKEY + "&type=video&q="+ things;
         var outerLink = "https://www.youtube.com/watch?v=";

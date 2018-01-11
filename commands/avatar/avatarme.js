@@ -6,7 +6,7 @@ class AvatarMeCommand extends commando.Command {
             name: 'avatarme',
             group: 'avatar',
             memberName: 'avatarme',
-            description: 'Gibt den Link zu deinem User Avatar'
+            description: 'Gives you a link to your avatar'
         });
     }
 

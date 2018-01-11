@@ -2,6 +2,7 @@
 const twit = require('twit');
 const config = require("./config_twitter.js");
 const PREFIX = '!tweetimg ';
+const ROLE = "";//The id of the role that should be able to tweet
 const fs = require('fs');
     request = require('request');
 
@@ -13,16 +14,12 @@ class tweetImgCommand extends commando.Command {
             name: 'tweetimg',
             group: 'tweet',
             memberName: 'tweetimg',
-            description: 'Twittert das erste Bild von deinen Image Links + Text (zwitscher, zwitscher)'
+            description: 'Tweets your image and text'
         });
     }
 
     async run(message, args) {
-        if(!message.member.roles.get('398961292054102017')) return;
-        if(message.member.id === '224203134703108096') {
-            message.channel.send("Tut mir leid, mir wurde von Alex gesagt, dass wenn du sowas machst es sehr übel endet, also darfst du das nicht nutzen!");
-            return;
-        }
+        if(!message.member.roles.get(ROLE)) return;
         var string = message.content.substring(PREFIX.length);
         var authorName = message.author.username + ' #' + message.author.discriminator;
         var splitString = string.split(message.embeds[0].url);
@@ -32,7 +29,6 @@ class tweetImgCommand extends commando.Command {
             console.log('downloaded');
             tweet(splitString[0],authorName,channel);
         },splitString[0], authorName, channel);
-        //tweet(splitString[0], authorName, channel);
     }
 }
 
@@ -42,18 +38,18 @@ var tweet = function(input, author, channel) {
     Twitter.postMediaChunked({file_path: path},function(err,data,response) {
         if(err) {
             console.log(err);
-            channel.send("Huch! Da ist etwas falsch gelaufen!");
+            channel.send("We've got a Problem here, sorry!");
         }
         else {
             console.log("Uploaded");
-            Twitter.post('statuses/update', {status: 'Der Nutzer ' + author + ' auf Discord wollte, dass ich "' + inputSplit[0] + '" poste.\n Ich habe keinen Plan, ob dieser Content auf Twitter überhaupt erlaubt ist. \n Achja und der Nutzer wollte dieses Bild dazu haben. \n-Bot',media_ids: new Array(data.media_id_string)}, function(err,data,response) {
+            Twitter.post('statuses/update', {status: 'The user ' + author + ' from Discord wants me to post: "' + inputSplit[0] + '"\n I do not know, if this content is suitable for Twitter. \n And the User also wanted me to provide this picture \n-Bot',media_ids: new Array(data.media_id_string)}, function(err,data,response) {
                 if(err) {
                     console.log('Fehler:' +  err);
-                    channel.send("Huch! Da ist etwas falsch gelaufen!");
+                    channel.send("We've got a Problem here, sorry!");
                 }
                 else {
-                    console.log("Hat geklappt");
-                    channel.send("Habe für dich getwittert, es ist möglich, dass der Upload aber noch etwas dauert. Du findest den Tweet dann hier: https://twitter.com/drblau1");
+                    console.log("Done");
+                    channel.send("I have tweeted for you. Find your tweet here:"); //Insert account of your twitter bot
                 }
             })
         }

@@ -7,7 +7,7 @@ class AvatarCommand extends commando.Command {
             name: 'avatar',
             group: 'avatar',
             memberName: 'avatar',
-            description: 'Gibt einen Link zu einem User Avatar',
+            description: 'Returns a link to the Avatar of the mentioned user',
             examples: ['!avatar @TestBotJs#2670']
         });
     }
@@ -16,7 +16,7 @@ class AvatarCommand extends commando.Command {
         var args = message.content.substring(PREFIX.length).split(" ");
         var member = message.mentions.members.first();
         if(!args[1]) {
-            message.reply("Bitte gib mir einen Nutzernamen, wenn du deinen eigenen Avatar willst schreibe !avatarme");
+            message.reply("I need a username, if you want your own avatar use !avatarme");
         }
         message.reply(member.user.avatarURL);
     }

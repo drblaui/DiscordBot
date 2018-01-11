@@ -2,6 +2,7 @@
 const twit = require('twit');
 const config = require("./config_twitter.js");
 const PREFIX = '!tweet ';
+const ROLE = ""; //The id of the role that should be able to tweet
 
 var Twitter = new twit(config);
 
@@ -11,16 +12,12 @@ class tweetCommand extends commando.Command {
             name: 'tweet',
             group: 'tweet',
             memberName: 'tweet',
-            description: 'Twittert einen Text (zwitscher, zwitscher)'
+            description: 'Tweets your text'
         });
     }
 
     async run(message, args) {
-        if(!message.member.roles.get('398961292054102017')) return;
-        if(message.member.id === '224203134703108096') {
-            message.channel.send("Tut mir leid, mir wurde von Alex gesagt, dass wenn du sowas machst es sehr übel endet, also darfst du das nicht nutzen!");
-            return;
-        }
+        if(!message.member.roles.get(ROLE)) return;
         var string = message.content.substring(PREFIX.length);
         var authorName = message.author.username + ' #' + message.author.discriminator;
 
@@ -29,13 +26,13 @@ class tweetCommand extends commando.Command {
 }
 
 var tweet = function(input, author) {
-    Twitter.post('statuses/update', {status: 'Der Nutzer ' + author + ' auf Discord wollte, dass ich "' + input + '" poste.\n Ich habe keinen Plan, ob dieser Content auf Twitter überhaupt erlaubt ist. \n-Bot'}, function(err,data,response) {
+    Twitter.post('statuses/update', {status: 'The User ' + author + ' from Discord wanted me to post: "' + input + '" \n I do not know, if this content is suitable for Twitter. \n-Bot'}, function(err,data,response) {
         if(err) {
-            console.log('Fehler:' +  err);
+            console.log('Error:' +  err);
         }
         else {
-            console.log("Hat geklappt");
-            channel.send("Habe für dich getwittert, es ist möglich, dass der Upload aber noch etwas dauert. Du findest den Tweet dann hier: https://twitter.com/drblau1");
+            console.log("Done");
+            channel.send("I have tweeted for you. Find your tweet here:"); //Insert account of your twitter bot
             return;
         }
     })
