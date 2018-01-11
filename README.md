@@ -1,2 +1,2 @@
 # DiscordBot
-A bot using discord.js
+A bot using [discord.js](https://github.com/hydrabolt/discord.js/)
